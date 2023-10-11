@@ -1,0 +1,1 @@
+./gradlew compileJava && cd app/bin/main && java bountyhunter.App
