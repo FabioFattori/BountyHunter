@@ -2,7 +2,11 @@ package bountyhunter.Classes.Entyties;
 
 import bountyhunter.Classes.WeaponsClasses.*;
 import java.awt.Graphics2D;
+import java.io.File;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import java.awt.Color;
 
 public class Player {
@@ -32,7 +36,13 @@ public class Player {
         this.speed = 3;
         this.weapon = new Pugni();
         inventory.add(new Pugni());
-        inventory.add(new HeavySword());
+        HeavySword hs = new HeavySword();
+        try {
+            hs.setIcon(ImageIO.read(new File("../../../Assets/HeavySword.png")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        inventory.add(hs);
         inventory.add(new Bow());
     }
 
@@ -41,6 +51,21 @@ public class Player {
         
         this.speed = 3;
         this.weapon = w;
+    }
+
+    public void update(KeyHandler k , int ScreenSizeX, int ScreenSizeY){
+        if (k.up && this.getY() - this.getSpeed() > 0) {
+            this.setY(this.getY() - this.getSpeed());
+        }
+        if (k.down && this.getY() + this.getSpeed() < ScreenSizeY - this.getTileSize()) {
+            this.setY(this.getY() + this.getSpeed());
+        }
+        if (k.left && this.getX() - this.getSpeed() > 0) {
+            this.setX(this.getX() - this.getSpeed());
+        }
+        if (k.right && this.getX() + this.getSpeed() < ScreenSizeX - this.getTileSize()) {
+            this.setX(this.getX() + this.getSpeed());
+        }
     }
 
     /* get & set section */

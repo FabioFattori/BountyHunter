@@ -1,16 +1,19 @@
 package bountyhunter.Classes.WeaponsClasses;
+import java.awt.image.BufferedImage;
 
 public abstract class Weapon {
     private int damage;
     private int attackSpeed; // the higher the attack speed, the slower the attack
     private int range;
     private int speed;
+    protected BufferedImage icon;
 
     public Weapon(int damage, int attackSpeed, int range, int speed) {
         this.damage = damage;
         this.attackSpeed = attackSpeed;
         this.range = range;
         this.speed = speed;
+        this.icon = null;
     }
 
     @Override
@@ -30,6 +33,16 @@ public abstract class Weapon {
 
     public int getAttackSpeed() {
         return attackSpeed;
+    }
+
+    public BufferedImage getIcon() {
+        return icon;
+    }
+
+    public void setIcon(BufferedImage icon) {
+        if (icon == null)
+            throw new IllegalArgumentException("Icon cannot be null");
+        this.icon = icon;
     }
 
     public int getRange() {

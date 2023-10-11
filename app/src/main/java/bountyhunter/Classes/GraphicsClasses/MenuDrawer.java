@@ -48,6 +48,7 @@ public abstract class MenuDrawer {
                     
                 }
 
+                //check if the weapon is equipped
                 if(p.getWeapon().equals(w)){
                     g.setColor(Color.orange);
                     g.fillRoundRect(x+10+i*56, y+35, 48, 48,10,10);
@@ -55,7 +56,7 @@ public abstract class MenuDrawer {
                 }
 
                 if(w instanceof HeavySword){
-                    ((HeavySword)w).DrawIcon(g, x+20+i*56, y+45);
+                    ((HeavySword)w).DrawIcon(g, x+i*56+10, y+35);
                 }
             i++;
         }

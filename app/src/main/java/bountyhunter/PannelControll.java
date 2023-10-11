@@ -45,6 +45,8 @@ public class PannelControll extends JPanel implements Runnable {
     @Override
     public void run() {
 
+        
+
         while (this.gameThread != null) {
 
             if (player.getHealth() <= 0) {
@@ -66,18 +68,7 @@ public class PannelControll extends JPanel implements Runnable {
     public void update() {
         frameCount++;
 
-        if (keyHandler.up && player.getY() - player.getSpeed() > 0) {
-            player.setY(player.getY() - player.getSpeed());
-        }
-        if (keyHandler.down && player.getY() + player.getSpeed() < ScreenSizeY - player.getTileSize()) {
-            player.setY(player.getY() + player.getSpeed());
-        }
-        if (keyHandler.left && player.getX() - player.getSpeed() > 0) {
-            player.setX(player.getX() - player.getSpeed());
-        }
-        if (keyHandler.right && player.getX() + player.getSpeed() < ScreenSizeX - player.getTileSize()) {
-            player.setX(player.getX() + player.getSpeed());
-        }
+        player.update(keyHandler, ScreenSizeX, ScreenSizeY);
 
         if (frameCount % fps == 1) {
             changeControll = true;

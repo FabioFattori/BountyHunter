@@ -12,12 +12,8 @@ public class HeavySword extends Weapon {
         return "Spada Pesante";
     }
 
-    public void DrawIcon(Graphics2D g2d, int x, int y) {
-        g2d.setColor(java.awt.Color.white);
-        g2d.drawRect(x, y, 10, 20);
-        g2d.drawLine(x + 5, y + 20, x + 5, y + 30);
-        g2d.drawLine(x, y, x + 5, y - 5);
-        g2d.drawLine(x + 5, y - 5, x + 15, y);
+    public void DrawIcon(Graphics2D g2d,int x, int y) {
+        g2d.drawImage(this.getIcon(), x, y, 48, 48, null);
     }
 
 }
