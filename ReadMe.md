@@ -44,7 +44,7 @@ if you want to steal this project we will be very sad ;(
 
 ## Created by
 
-- [@FabioFattori](*@fabio.fattori3@studio.unibo.it*)
-- [@MattiaSenni](**)
+- [@FabioFattori](*FabioFattori*)
+- [@MattiaSenni](*mtttia*)
 - [@FrancescoTonelli](**)
 - [@AlessandroBuono](**)

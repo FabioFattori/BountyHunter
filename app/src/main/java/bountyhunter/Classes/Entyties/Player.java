@@ -38,7 +38,7 @@ public class Player {
         inventory.add(new Pugni());
         HeavySword hs = new HeavySword();
         try {
-            hs.setIcon(ImageIO.read(new File("../../../Assets/HeavySword.png")));
+            hs.setIcon(ImageIO.read(new File("../../../../Assets/HeavySword.png")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
