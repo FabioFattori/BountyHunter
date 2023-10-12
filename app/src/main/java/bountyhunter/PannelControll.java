@@ -1,6 +1,7 @@
 package bountyhunter;
 
 import bountyhunter.Classes.Entyties.*;
+import bountyhunter.Classes.GraphicsClasses.MapDrawer;
 import bountyhunter.Classes.GraphicsClasses.MenuDrawer;
 import bountyhunter.Classes.WeaponsClasses.*;
 import java.awt.Color;
@@ -44,8 +45,13 @@ public class PannelControll extends JPanel implements Runnable {
 
     @Override
     public void run() {
-
-        
+        try {
+            MapDrawer mapDrawer = new MapDrawer();
+            mapDrawer.drawMap("../../../../../Assets/maps/map.txt");
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("porco diuo");
+        }
 
         while (this.gameThread != null) {
 
@@ -68,7 +74,9 @@ public class PannelControll extends JPanel implements Runnable {
     public void update() {
         frameCount++;
 
-        player.update(keyHandler, ScreenSizeX, ScreenSizeY);
+        if (!this.InventoryHandler.isIsOpen()) {
+            player.update(keyHandler, ScreenSizeX, ScreenSizeY);
+        }
 
         if (frameCount % fps == 1) {
             changeControll = true;
@@ -86,7 +94,7 @@ public class PannelControll extends JPanel implements Runnable {
 
         MenuDrawer.drawTopLeftMenu(g2d, player);
 
-        player.redraw(g2d, keyHandler);
+        player.redraw(g2d, keyHandler.direction);
 
         InventoryHandler.draw(g2d);
 

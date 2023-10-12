@@ -88,4 +88,8 @@ public class InventoryHandler {
         this.inventory = inventory;
     }
 
+    public boolean isIsOpen() {
+        return isOpen;
+    }
+
 }

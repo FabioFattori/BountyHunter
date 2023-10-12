@@ -15,21 +15,20 @@ public class Player {
     private int tileSize;
     private int speed;
     private int health = 100;
-    private List<Weapon> inventory=new java.util.ArrayList<Weapon>();
+    private List<Weapon> inventory = new java.util.ArrayList<Weapon>();
     private Weapon weapon;
     private Bullet _bullet;
     private int _bulletShotTime = 0;
     private int _attackingTime = 0;
     private boolean _isPressingAttack = false;
 
-    
-    public Player(int tileSize){
-        this(tileSize,100,100);
+    public Player(int tileSize) {
+        this(tileSize, 100, 100);
         this.speed = 3;
         this.weapon = new Pugni();
     }
 
-    public Player(int tileSize,int x,int y){
+    public Player(int tileSize, int x, int y) {
         this.tileSize = tileSize;
         this.x = x;
         this.y = y;
@@ -46,14 +45,15 @@ public class Player {
         inventory.add(new Bow());
     }
 
-    public Player(int tileSize,Weapon w){
-        this(tileSize,100,100);
-        
+    public Player(int tileSize, Weapon w) {
+        this(tileSize, 100, 100);
+
         this.speed = 3;
         this.weapon = w;
     }
 
-    public void update(KeyHandler k , int ScreenSizeX, int ScreenSizeY){
+    public void update(KeyHandler k, int ScreenSizeX, int ScreenSizeY) {
+
         if (k.up && this.getY() - this.getSpeed() > 0) {
             this.setY(this.getY() - this.getSpeed());
         }
@@ -65,6 +65,26 @@ public class Player {
         }
         if (k.right && this.getX() + this.getSpeed() < ScreenSizeX - this.getTileSize()) {
             this.setX(this.getX() + this.getSpeed());
+        }
+
+        if (!(this.weapon instanceof RangedWeapon)) {
+            if (k.attack && !_isPressingAttack && _attackingTime <= 0) {
+                _isPressingAttack = true;
+                _attackingTime = weapon.getAttackSpeed();
+            } else if (!k.attack) {
+                _isPressingAttack = false;
+            }
+
+        } else {
+            if (k.attack && _bullet == null) {
+                _bullet = new Bullet(x, y, weapon.getRange(), weapon.getSpeed(), weapon.getDamage(), k.direction);
+                _bulletShotTime = 0;
+            }
+
+            if (_bulletShotTime * weapon.getSpeed() > weapon.getRange()) {
+                _bullet = null;
+            }
+
         }
     }
 
@@ -84,20 +104,20 @@ public class Player {
 
     public int getY() {
         return y;
-    }  
+    }
 
     public Weapon getWeapon() {
         return weapon;
     }
 
     public void setHealth(int health) {
-        if(health < 0)
+        if (health < 0)
             throw new IllegalArgumentException("Health cannot be negative");
         this.health = health;
     }
 
     public void setSpeed(int speed) {
-        if(speed < 0)
+        if (speed < 0)
             throw new IllegalArgumentException("Speed cannot be negative");
         this.speed = speed;
     }
@@ -128,77 +148,47 @@ public class Player {
 
     /* end of get & set section */
 
-    
-
-    public void redraw(Graphics2D g2d, KeyHandler keyHandler){
+    public void redraw(Graphics2D g2d, String direction) {
         g2d.setColor(Color.white);
 
         g2d.fillRect(x, y, tileSize, tileSize);
 
-        if(!(this.weapon instanceof RangedWeapon))
-        {
-            if(keyHandler.attack && !_isPressingAttack && _attackingTime <= 0)
-            {
-                _isPressingAttack = true;
-                _attackingTime = weapon.getAttackSpeed();
-            }
-            else if(!keyHandler.attack)
-            {
-                _isPressingAttack = false;
-            }
-
-            if(_attackingTime > 0){
+        if (!(this.weapon instanceof RangedWeapon)) {
+            if (_attackingTime > 0) {
                 _attackingTime--;
-                AttackNotRanged(g2d, keyHandler);
+                AttackNotRanged(g2d, direction);
             }
-        }
-        else
-        {
-            if(keyHandler.attack && _bullet == null)
-            {
-                _bullet = new Bullet(x,y,weapon.getRange(),weapon.getSpeed(),weapon.getDamage(),keyHandler.direction);
-                _bulletShotTime = 0;
-            }
-            
-            if(_bullet != null)
-            {
+        } else {
+            if (_bullet != null) {
                 AttackRanged(g2d);
                 _bulletShotTime++;
             }
-
-            if(_bulletShotTime * weapon.getSpeed() > weapon.getRange())
-            {
-                _bullet = null;
-            }
-        
-
         }
     }
 
-    public void AttackRanged(Graphics2D g2d)
-    {
-        _bullet.draw(g2d,_bulletShotTime);
+    public void AttackRanged(Graphics2D g2d) {
+        _bullet.draw(g2d, _bulletShotTime);
     }
 
-    public void AttackNotRanged(Graphics2D g2d,KeyHandler keyHandler){
+    public void AttackNotRanged(Graphics2D g2d, String direction) {
         g2d.setColor(Color.red);
-        
-        switch (keyHandler.direction) {
-                case "up":
-                    g2d.fillRect(x, y-this.weapon.getRange(), tileSize, tileSize);
-                    break;
-                case "down":
-                    g2d.fillRect(x, y+this.weapon.getRange(), tileSize, tileSize);
-                    break;
-                case "left":
-                    g2d.fillRect(x-this.weapon.getRange(), y, tileSize, tileSize);
-                    break;
-                case "right":
-                    g2d.fillRect(x+this.weapon.getRange(), y, tileSize, tileSize);
-                    break;
-            
-                default:
-                    break;
+
+        switch (direction) {
+            case "up":
+                g2d.fillRect(x, y - this.weapon.getRange(), tileSize, tileSize);
+                break;
+            case "down":
+                g2d.fillRect(x, y + this.weapon.getRange(), tileSize, tileSize);
+                break;
+            case "left":
+                g2d.fillRect(x - this.weapon.getRange(), y, tileSize, tileSize);
+                break;
+            case "right":
+                g2d.fillRect(x + this.weapon.getRange(), y, tileSize, tileSize);
+                break;
+
+            default:
+                break;
         }
     }
 }
