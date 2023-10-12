@@ -11,20 +11,15 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 public class PannelControll extends JPanel implements Runnable {
-    private final int tileSizeOriginal = 16;
-    private final int scale = 3;
-    private final int tileSize = tileSizeOriginal * scale;
-    private final int maxTileX = 20;
-    private final int maxTileY = 15;
-    private final int ScreenSizeX = tileSize * maxTileX;
-    private final int ScreenSizeY = tileSize * maxTileY;
+    private EnviromentVariables ev = new EnviromentVariables();
     private Bullet b;
-    private Player player = new Player(tileSize, new HeavySword());
+    private Player player = new Player(ev.getTileSize(), new HeavySword());
     private Thread gameThread;
     private Graphics2D g2d;
     private int fps = 60;
     private int frameCount = 0;
     private boolean changeControll = true;
+    private MapDrawer mapDrawer;
     private InventoryHandler InventoryHandler = new InventoryHandler(player.getInventory(), this);
 
     // ChangeWeapongArea changeWeaponArea = new ChangeWeapongArea(100,100,100,100);
@@ -33,7 +28,14 @@ public class PannelControll extends JPanel implements Runnable {
 
     public PannelControll() {
         this.setFocusable(true);
-        this.setPreferredSize(new Dimension(ScreenSizeX, ScreenSizeY));
+        try {
+            mapDrawer = new MapDrawer(ev.getPathToAsset()+"maps/map.txt",ev.getTileSize());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        ev.setMaxTileX(mapDrawer.getMap()[0].length);
+        ev.setMaxTileY(mapDrawer.getMap().length);
+        this.setPreferredSize(new Dimension(ev.getScreenSizeX(), ev.getScreenSizeY()));
         this.setBackground(Color.black);
         this.addKeyListener(keyHandler);
     }
@@ -45,13 +47,7 @@ public class PannelControll extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        try {
-            MapDrawer mapDrawer = new MapDrawer();
-            mapDrawer.drawMap("../../../../../Assets/maps/map.txt");
-        } catch (Exception e) {
-            System.out.println(e);
-            System.out.println("porco diuo");
-        }
+        
 
         while (this.gameThread != null) {
 
@@ -75,7 +71,7 @@ public class PannelControll extends JPanel implements Runnable {
         frameCount++;
 
         if (!this.InventoryHandler.isIsOpen()) {
-            player.update(keyHandler, ScreenSizeX, ScreenSizeY);
+            player.update(keyHandler, ev.getScreenSizeX(), ev.getScreenSizeY());
         }
 
         if (frameCount % fps == 1) {
@@ -92,6 +88,8 @@ public class PannelControll extends JPanel implements Runnable {
 
         this.g2d = (Graphics2D) g;
 
+        mapDrawer.drawMap(g2d);
+
         MenuDrawer.drawTopLeftMenu(g2d, player);
 
         player.redraw(g2d, keyHandler.direction);
@@ -102,34 +100,6 @@ public class PannelControll extends JPanel implements Runnable {
     }
 
     /* get & set section */
-
-    public int getScreenSizeX() {
-        return ScreenSizeX;
-    }
-
-    public int getScreenSizeY() {
-        return ScreenSizeY;
-    }
-
-    public int getTileSize() {
-        return tileSize;
-    }
-
-    public int getMaxTileX() {
-        return maxTileX;
-    }
-
-    public int getMaxTileY() {
-        return maxTileY;
-    }
-
-    public int getTileSizeOriginal() {
-        return tileSizeOriginal;
-    }
-
-    public int getScale() {
-        return scale;
-    }
 
     public int getFps() {
         return fps;

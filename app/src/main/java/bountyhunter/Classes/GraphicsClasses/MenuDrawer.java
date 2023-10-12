@@ -10,7 +10,7 @@ public abstract class MenuDrawer {
     
     public static void drawTopLeftMenu(Graphics2D g,Player p){
         
-        g.setColor(Color.white);
+        g.setColor(Color.black);
         g.draw(new RoundRectangle2D.Double(0, 5, 150, 70, 10, 10));
         g.drawString("Health: " + p.getHealth(), 10, 20);
         g.drawString("Damage: " + p.getWeapon().getDamage(), 10, 40);
