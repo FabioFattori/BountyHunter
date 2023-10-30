@@ -82,7 +82,6 @@ public class MapDrawer {
 
         for (int[] row : map) {
             for (int tile : row) {
-                System.out.println(tile);
                 if (tile == 0) {
                     g2d.setColor(java.awt.Color.yellow);
                 } else if (tile == 1) {
@@ -99,6 +98,7 @@ public class MapDrawer {
             i = 0;
             currentRow++;
         }
+        
     }
 
     public int[][] getMap() {

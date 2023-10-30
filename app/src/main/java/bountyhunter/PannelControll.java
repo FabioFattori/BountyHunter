@@ -9,8 +9,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 public class PannelControll extends JPanel implements Runnable {
+    /* window of The Game */
+    private final JFrame frame;
     private EnviromentVariables ev = new EnviromentVariables();
     private Bullet b;
     private Player player = new Player(ev.getTileSize(), new HeavySword());
@@ -26,16 +29,22 @@ public class PannelControll extends JPanel implements Runnable {
 
     public KeyHandler keyHandler = new KeyHandler();
 
-    public PannelControll() {
+    public PannelControll(final JFrame frame) {
+        this.frame = frame;
+
         this.setFocusable(true);
+        /* load the map */ 
         try {
             mapDrawer = new MapDrawer(ev.getPathToAsset()+"maps/map.txt",ev.getTileSize());
         } catch (Exception e) {
             System.out.println(e);
         }
+        
         ev.setMaxTileX(mapDrawer.getMap()[0].length);
         ev.setMaxTileY(mapDrawer.getMap().length);
+        
         this.setPreferredSize(new Dimension(ev.getScreenSizeX(), ev.getScreenSizeY()));
+        this.setSize(ev.getScreenSizeX(), ev.getScreenSizeY());
         this.setBackground(Color.black);
         this.addKeyListener(keyHandler);
     }

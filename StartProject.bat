@@ -1,6 +1,3 @@
-echo "Starting project for Windows..."
 
-if "%OS%"=="Windows_NT" setlocal
-gradlew compileJava && cd app/build/classes/java/main && java bountyhunter.App
-
-
+echo "Starting project for Windows ..." ;
+gradlew compileJava && cd app/build/classes/java/main && java bountyhunter.App ; 

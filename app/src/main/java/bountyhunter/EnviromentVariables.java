@@ -3,6 +3,7 @@ package bountyhunter;
 import org.checkerframework.checker.guieffect.qual.SafeEffect;
 
 public class EnviromentVariables {
+    private final String titleOfWindow = "Bounty Hunter V0.1";
     private final int tileSize = 48;
     private int maxTileX = 20;
     private int maxTileY = 15;
@@ -30,6 +31,15 @@ public class EnviromentVariables {
     public int getTileSize() {
         return tileSize;
     }
+
+    public String getTitleOfWindow() {
+        return titleOfWindow;
+    }
+
+    static public String getAssetPath() {
+        return "../../../../Assets/";
+    }
+
 
     public String getPathToAsset() {
         return pathToAsset;
