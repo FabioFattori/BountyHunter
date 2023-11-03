@@ -33,7 +33,7 @@ public abstract class MenuDrawer {
         int y=10;
         int maxWidth=400;
         int maxHeight=300;
-        g.setColor(Color.white);
+        g.setColor(Color.black);
         //draw a rectangole with the inventory in the right side of the screen
         g.draw(new RoundRectangle2D.Double(x, y, maxWidth, maxHeight, 10, 10));
         g.drawString("Inventory", x+50, y+15);
@@ -52,7 +52,7 @@ public abstract class MenuDrawer {
                 if(p.getWeapon().equals(w)){
                     g.setColor(Color.orange);
                     g.fillRoundRect(x+10+i*56, y+35, 48, 48,10,10);
-                    g.setColor(Color.white);
+                    g.setColor(Color.black);
                 }
 
                 if(w instanceof HeavySword){

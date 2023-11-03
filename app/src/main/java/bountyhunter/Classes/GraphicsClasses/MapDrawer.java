@@ -4,12 +4,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import javax.imageio.ImageIO;
+
+import bountyhunter.EnviromentVariables;
 
 public class MapDrawer {
     private int map[][];
     private int tileSize;
+    private HashMap<Integer, BufferedImage> tileImages = new HashMap<Integer, BufferedImage>();
 
-    public MapDrawer(String path, final int  tileSize) {
+    public MapDrawer(String path, final int tileSize) {
         this.tileSize = tileSize;
         try {
 
@@ -80,25 +86,37 @@ public class MapDrawer {
         int i = 0;
         int currentRow = 0;
 
-        for (int[] row : map) {
-            for (int tile : row) {
-                if (tile == 0) {
-                    g2d.setColor(java.awt.Color.yellow);
-                } else if (tile == 1) {
-                    g2d.setColor(java.awt.Color.white);
-                } else if (tile == 2) {
-                    g2d.setColor(java.awt.Color.red);
-                } else if (tile == -1) {
-                    g2d.setColor(java.awt.Color.black);
-                }
-
-                g2d.fillRect(i * tileSize, currentRow * tileSize, tileSize, tileSize);
-                i++;
+        try {
+            if (this.tileImages.isEmpty()) {
+                this.tileImages.put(0, ImageIO.read(new File(EnviromentVariables.getAssetPath() + "ground.png")));
+                this.tileImages.put(1, ImageIO.read(new File(EnviromentVariables.getAssetPath() + "border.png")));
+                this.tileImages.put(2, ImageIO.read(new File(EnviromentVariables.getAssetPath() + "water.png")));
             }
-            i = 0;
-            currentRow++;
+
+            for (int[] row : map) {
+                for (int tile : row) {
+                    if (tile == 0) {
+                        g2d.drawImage(this.tileImages.get(0), i * tileSize, currentRow * tileSize, tileSize, tileSize,
+                                null);
+                    } else if (tile == 1) {
+                        g2d.drawImage(this.tileImages.get(1), i * tileSize, currentRow * tileSize, tileSize, tileSize,
+                                null);
+                    } else if (tile == 2) {
+                        g2d.drawImage(this.tileImages.get(2), i * tileSize, currentRow * tileSize, tileSize, tileSize,
+                                null);
+                    } else if (tile == -1) {
+                        g2d.setColor(java.awt.Color.black);
+                    }
+
+                    i++;
+                }
+                i = 0;
+                currentRow++;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load map, error Message => " + e);
         }
-        
+
     }
 
     public int[][] getMap() {
