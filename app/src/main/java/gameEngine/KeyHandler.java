@@ -36,8 +36,6 @@ public class KeyHandler implements KeyListener {
 
         if (!keyPressed.contains(key)) {
             keyPressed.add(key);
-        } else {
-            System.out.println("ERROR Key already pressed");
         }
 
         bindDirection(keyCode);
@@ -46,21 +44,11 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
-        try {
-            int keyCode = e.getKeyCode();
-            Integer key = Integer.valueOf(keyCode);
+        int keyCode = e.getKeyCode();
+        Integer key = Integer.valueOf(keyCode);
 
-            // log the array
-            System.out.println(keyPressed);
-
-            if (keyPressed.contains(key)) {
-                keyPressed.remove(key);
-            } else {
-                System.out.println("ERROR Key not pressed");
-            }
-        } catch (Exception ex) {
-            // print array and key
-            System.out.println("Error in keyReleased, " + e.getKeyCode() + " " + e.getKeyChar());
+        if (keyPressed.contains(key)) {
+            keyPressed.remove(key);
         }
     }
 

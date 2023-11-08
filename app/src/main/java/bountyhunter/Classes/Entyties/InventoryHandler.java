@@ -70,7 +70,8 @@ public class InventoryHandler implements DrawableEntity {
                 gameRender.getPlayer().setWeapon(inventory.get(currentIndex));
             }
 
-            waitingTime--;
+            if (waitingTime > 0)
+                waitingTime--;
         }
 
     }

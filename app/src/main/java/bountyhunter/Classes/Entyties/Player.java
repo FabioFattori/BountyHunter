@@ -36,14 +36,14 @@ public class Player implements DrawableEntity {
     private int rightKey = KeyEvent.VK_D;
     private int attackKey = KeyEvent.VK_SPACE;
 
-    public Player(int tileSize) {
-        this(tileSize, 100, 100);
+    public Player(GamePanel gamePanel) {
+        this(gamePanel, 100, 100);
         this.speed = 3;
         this.weapon = new Pugni();
     }
 
-    public Player(int tileSize, int x, int y) {
-        this.tileSize = tileSize;
+    public Player(GamePanel gamePanel, int x, int y) {
+        this.tileSize = gamePanel.getConfiguration().getTileSize();
         this.x = x;
         this.y = y;
         this.speed = 3;
@@ -51,8 +51,7 @@ public class Player implements DrawableEntity {
         inventory.add(new Pugni());
         HeavySword hs = new HeavySword();
         try {
-            hs.setIcon(ImageIO
-                    .read(getClass().getResourceAsStream("/Assets/HeavySword.png")));
+            hs.setIcon(gamePanel.getAssetProvider().getImage("heavySword.png"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -60,8 +59,8 @@ public class Player implements DrawableEntity {
         inventory.add(new Bow());
     }
 
-    public Player(int tileSize, Weapon w) {
-        this(tileSize, 100, 100);
+    public Player(GamePanel gamePanel, Weapon w) {
+        this(gamePanel, 100, 100);
 
         this.speed = 3;
         this.weapon = w;
@@ -92,6 +91,11 @@ public class Player implements DrawableEntity {
         }
         if (rightPressed && this.getX() + this.getSpeed() < screenSizeX - this.getTileSize()) {
             this.setX(this.getX() + this.getSpeed());
+        }
+
+        if (_bullet != null) {
+            _bullet.update(gamePanel);
+            _bulletShotTime++;
         }
 
         if (!(this.weapon instanceof RangedWeapon)) {

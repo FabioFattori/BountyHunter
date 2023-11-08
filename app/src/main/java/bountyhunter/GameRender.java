@@ -32,7 +32,7 @@ public class GameRender implements DrawableEntity {
     }
 
     public void initialize() {
-        this.player = new Player(gamePanel.getConfiguration().getTileSize(), new HeavySword());
+        this.player = new Player(gamePanel, new HeavySword());
         InventoryHandler = new InventoryHandler(player.getInventory(), this);
         mapDrawer = new MapDrawer(gamePanel, "maps/map.txt");
         frameCount = 0;
@@ -58,7 +58,6 @@ public class GameRender implements DrawableEntity {
     }
 
     public void draw(Graphics2D g2d, GamePanel gamePanel) {
-
         mapDrawer.drawMap(g2d);
 
         MenuDrawer.drawTopLeftMenu(g2d, player);

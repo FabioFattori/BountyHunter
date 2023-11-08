@@ -35,9 +35,10 @@ public class App {
         frame.setVisible(true);
 
         GameRender gameRender = new GameRender(gp);
-        gp.addGameEntities(gameRender);
 
-        gp.run();
+        gp.addGameEntities(gameRender);
+        gp.startGameThread();
+
     }
 
     private static GameConfiguration getDefaultConfiguration() {

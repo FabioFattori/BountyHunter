@@ -103,6 +103,7 @@ public class MapDrawer {
     }
 
     public void drawMap(Graphics2D g2d) {
+
         int i = 0;
         int currentRow = 0;
 
@@ -111,13 +112,16 @@ public class MapDrawer {
             for (int[] row : map) {
                 for (int tile : row) {
                     if (tile == 0) {
-                        g2d.drawImage(this.tileImages.get(0), i * tileSize, currentRow * tileSize, tileSize, tileSize,
+                        g2d.drawImage(this.tileImages.get(0), i * tileSize, currentRow * tileSize,
+                                tileSize, tileSize,
                                 null);
                     } else if (tile == 1) {
-                        g2d.drawImage(this.tileImages.get(1), i * tileSize, currentRow * tileSize, tileSize, tileSize,
+                        g2d.drawImage(this.tileImages.get(1), i * tileSize, currentRow * tileSize,
+                                tileSize, tileSize,
                                 null);
                     } else if (tile == 2) {
-                        g2d.drawImage(this.tileImages.get(2), i * tileSize, currentRow * tileSize, tileSize, tileSize,
+                        g2d.drawImage(this.tileImages.get(2), i * tileSize, currentRow * tileSize,
+                                tileSize, tileSize,
                                 null);
                     } else if (tile == -1) {
                         g2d.setColor(java.awt.Color.black);

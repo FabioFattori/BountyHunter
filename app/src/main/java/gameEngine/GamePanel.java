@@ -51,12 +51,12 @@ public class GamePanel
     }
 
     public void run() {
-        startGameThread();
+
         double drawInterval = (1000000000 / getConfiguration().getFPS());
-        double delta = 0.0D;
+        double delta = 0;
         long lastTime = System.nanoTime();
 
-        long timer = 0L;
+        long timer = 0;
         int drawCount = 0;
 
         while (this.gameThread != null) {
@@ -67,23 +67,26 @@ public class GamePanel
             timer += currentTime - lastTime;
             lastTime = currentTime;
 
-            if (delta >= 1.0D) {
+            if (delta >= 1) {
                 update();
                 repaint();
+
                 delta--;
                 drawCount++;
             }
 
-            if (timer >= 1000000000L) {
+            if (timer >= 1000000000) {
 
-                if (drawCount < getConfiguration().getFPS()) {
-                    System.out.println("FPS dropped below " + getConfiguration().getFPS() + "FPS=" + drawCount);
-                } else {
-                    System.out.println(drawCount + " FPS");
-                }
+                System.out.println(drawCount + " FPS");
+                // if (drawCount < getConfiguration().getFPS()) {
+                // System.out.println("FPS dropped below " + getConfiguration().getFPS() +
+                // "FPS=" + drawCount);
+                // } else {
+                // System.out.println(drawCount + " FPS");
+                // }
 
                 drawCount = 0;
-                timer = 0L;
+                timer = 0;
             }
         }
     }
