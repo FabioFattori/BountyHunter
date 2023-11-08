@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import gameEngine.classes.AssetProvider;
 import gameEngine.classes.GameEntity;
 import gameEngine.classes.GamePresentation;
 import gameEngine.interfaces.DrawableEntity;
@@ -20,6 +22,7 @@ public class GamePanel
     private List<DrawableEntity> gameEntities = new ArrayList<DrawableEntity>();
     private GameConfiguration gameConfiguration;
     private GamePresentation gamePresentation;
+    private AssetProvider assetProvider;
 
     Thread gameThread;
 
@@ -27,6 +30,7 @@ public class GamePanel
             Color background) {
         this.gameConfiguration = gameConfiguration;
         this.gameEntities = drawableEntities;
+        this.assetProvider = new AssetProvider(gameConfiguration.getAssetPath());
         setPreferredSize(new Dimension(gameConfiguration.getScreenSizeX(), gameConfiguration.getScreenSizeY()));
         setBackground(background);
         setDoubleBuffered(true);
@@ -127,6 +131,10 @@ public class GamePanel
 
     public void addGameEntities(DrawableEntity drawableEntities) {
         this.gameEntities.add(drawableEntities);
+    }
+
+    public AssetProvider getAssetProvider() {
+        return this.assetProvider;
     }
 
     // UTIL method

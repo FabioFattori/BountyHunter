@@ -34,8 +34,7 @@ public class GameRender implements DrawableEntity {
     public void initialize() {
         this.player = new Player(gamePanel.getConfiguration().getTileSize(), new HeavySword());
         InventoryHandler = new InventoryHandler(player.getInventory(), this);
-        mapDrawer = new MapDrawer(gamePanel.getConfiguration().getAssetPath() + "maps/map.txt",
-                gamePanel.getConfiguration().getTileSize());
+        mapDrawer = new MapDrawer(gamePanel, "maps/map.txt");
         frameCount = 0;
     }
 

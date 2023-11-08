@@ -11,14 +11,20 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import bountyhunter.EnviromentVariables;
+import gameEngine.GamePanel;
+import gameEngine.classes.AssetProvider;
 
 public class MapDrawer {
     private int map[][];
     private int tileSize;
     private HashMap<Integer, BufferedImage> tileImages = new HashMap<Integer, BufferedImage>();
+    AssetProvider assetProvider;
 
-    public MapDrawer(String path, final int tileSize) {
-        this.tileSize = tileSize;
+    public MapDrawer(GamePanel gamePanel, String mapPath) {
+        this.tileSize = gamePanel.getConfiguration().getTileSize();
+        this.assetProvider = gamePanel.getAssetProvider();
+        String path = assetProvider.fullPath(mapPath);
+
         try {
 
             int currentRow = 0;
@@ -49,9 +55,26 @@ public class MapDrawer {
             }
 
             br.close();
+
+            // load images once for all
+            loadMapAssets();
         } catch (Exception e) {
             throw new RuntimeException("Failed to load map: " + path + " error Message => " + e);
         }
+    }
+
+    private void loadMapAssets() {
+
+        String groundPath = "ground.png";
+        String borderPath = "border.png";
+        String waterPath = "water.png";
+
+        // assetProvider.loadImage(groundPath);
+        // assetProvider.loadImage(borderPath);
+        // assetProvider.loadImage(waterPath);
+        this.tileImages.put(0, assetProvider.getImage(groundPath));
+        this.tileImages.put(1, assetProvider.getImage(borderPath));
+        this.tileImages.put(2, assetProvider.getImage(waterPath));
     }
 
     private void readTheFileToGetLenghtOfMatrix(BufferedReader br) {
@@ -84,11 +107,6 @@ public class MapDrawer {
         int currentRow = 0;
 
         try {
-            if (this.tileImages.isEmpty()) {
-                this.tileImages.put(0, ImageIO.read(getClass().getResourceAsStream("/Assets/ground.png")));
-                this.tileImages.put(1, ImageIO.read(getClass().getResourceAsStream("/Assets/border.png")));
-                this.tileImages.put(2, ImageIO.read(getClass().getResourceAsStream("/Assets/water.png")));
-            }
 
             for (int[] row : map) {
                 for (int tile : row) {
