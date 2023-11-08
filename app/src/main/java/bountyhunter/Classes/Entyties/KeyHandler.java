@@ -1,12 +1,14 @@
 package bountyhunter.Classes.Entyties;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean up, down, left, right,attack,changeWeapon,inventory,upInventory,downInventory,leftInventory,rightInventory;
+    public boolean up, down, left, right, attack, changeWeapon, inventory, upInventory, downInventory, leftInventory,
+            rightInventory;
 
-    public String direction="down";
+    public String direction = "down";
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -14,48 +16,47 @@ public class KeyHandler implements KeyListener {
 
         switch (keyCode) {
             case KeyEvent.VK_W:
-                direction="up";
-                up=true;
+                direction = "up";
+                up = true;
                 break;
             case KeyEvent.VK_A:
-                direction="left";
-                left=true;
+                direction = "left";
+                left = true;
                 break;
             case KeyEvent.VK_S:
-                direction="down";
-                down=true;
+                direction = "down";
+                down = true;
                 break;
             case KeyEvent.VK_D:
-                direction="right";
-                right=true;
+                direction = "right";
+                right = true;
                 break;
             case KeyEvent.VK_SPACE:
-                attack=true;
+                attack = true;
                 break;
             case KeyEvent.VK_E:
-                changeWeapon=true;
+                changeWeapon = true;
                 break;
             case KeyEvent.VK_I:
-                inventory=true;
+                inventory = true;
                 break;
             case KeyEvent.VK_UP:
-                upInventory=true;
+                upInventory = true;
                 break;
             case KeyEvent.VK_LEFT:
-                leftInventory=true;
+                leftInventory = true;
                 break;
             case KeyEvent.VK_DOWN:
-                downInventory=true;
+                downInventory = true;
                 break;
             case KeyEvent.VK_RIGHT:
-                rightInventory=true;
+                rightInventory = true;
                 break;
-            
-            
+
             default:
                 break;
         }
-        
+
     }
 
     @Override
@@ -63,50 +64,50 @@ public class KeyHandler implements KeyListener {
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             case KeyEvent.VK_W:
-                
-                up=false;
+
+                up = false;
                 break;
             case KeyEvent.VK_A:
-                left=false;
+                left = false;
                 break;
             case KeyEvent.VK_S:
-                down=false;
+                down = false;
                 break;
             case KeyEvent.VK_D:
-                right=false;
+                right = false;
                 break;
             case KeyEvent.VK_SPACE:
-                attack=false;
+                attack = false;
                 break;
             case KeyEvent.VK_E:
-                changeWeapon=false;
+                changeWeapon = false;
                 break;
             case KeyEvent.VK_I:
-                inventory=false;
+                inventory = false;
                 break;
             case KeyEvent.VK_UP:
-                
-            upInventory=false;
-            break;
-        case KeyEvent.VK_LEFT:
-            leftInventory=false;
-            break;
-        case KeyEvent.VK_DOWN:
-            downInventory=false;
-            break;
-        case KeyEvent.VK_RIGHT:
-            rightInventory=false;
-            break;
-        
+
+                upInventory = false;
+                break;
+            case KeyEvent.VK_LEFT:
+                leftInventory = false;
+                break;
+            case KeyEvent.VK_DOWN:
+                downInventory = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                rightInventory = false;
+                break;
+
             default:
                 break;
         }
-        
+
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
-    
+
 }

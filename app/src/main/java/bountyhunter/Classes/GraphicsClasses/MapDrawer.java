@@ -3,6 +3,8 @@ package bountyhunter.Classes.GraphicsClasses;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -21,12 +23,13 @@ public class MapDrawer {
 
             int currentRow = 0;
 
-            File file = new File(path);
-            BufferedReader br = new BufferedReader(new FileReader(file));
+            InputStream is = getClass().getResourceAsStream(path);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             readTheFileToGetLenghtOfMatrix(br);
             // devo ricreare il bufferedReader per far ripartire il puntatore dall'inizio
             // del file
-            br = new BufferedReader(new FileReader(file));
+            is = getClass().getResourceAsStream(path);
+            br = new BufferedReader(new InputStreamReader(is));
             String line = br.readLine();
             while (line != null) {
 
@@ -68,8 +71,6 @@ public class MapDrawer {
 
             map = new int[nRow][nCol];
 
-            
-
             br.close();
 
         } catch (Exception e) {
@@ -84,9 +85,9 @@ public class MapDrawer {
 
         try {
             if (this.tileImages.isEmpty()) {
-                this.tileImages.put(0, ImageIO.read(new File(EnviromentVariables.getAssetPath() + "ground.png")));
-                this.tileImages.put(1, ImageIO.read(new File(EnviromentVariables.getAssetPath() + "border.png")));
-                this.tileImages.put(2, ImageIO.read(new File(EnviromentVariables.getAssetPath() + "water.png")));
+                this.tileImages.put(0, ImageIO.read(getClass().getResourceAsStream("/Assets/ground.png")));
+                this.tileImages.put(1, ImageIO.read(getClass().getResourceAsStream("/Assets/border.png")));
+                this.tileImages.put(2, ImageIO.read(getClass().getResourceAsStream("/Assets/water.png")));
             }
 
             for (int[] row : map) {

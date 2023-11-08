@@ -2,7 +2,12 @@ package bountyhunter.Classes.Entyties;
 
 import bountyhunter.EnviromentVariables;
 import bountyhunter.Classes.WeaponsClasses.*;
+import gameEngine.GamePanel;
+import gameEngine.interfaces.DrawableEntity;
+import gameEngine.enums.Direction;
+
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.List;
 
@@ -11,7 +16,7 @@ import java.awt.image.BufferedImage;
 
 import java.awt.Color;
 
-public class Player {
+public class Player implements DrawableEntity {
     private BufferedImage icon;
     private int x;
     private int y;
@@ -24,6 +29,12 @@ public class Player {
     private int _bulletShotTime = 0;
     private int _attackingTime = 0;
     private boolean _isPressingAttack = false;
+
+    private int upKey = KeyEvent.VK_W;
+    private int downKey = KeyEvent.VK_S;
+    private int leftKey = KeyEvent.VK_A;
+    private int rightKey = KeyEvent.VK_D;
+    private int attackKey = KeyEvent.VK_SPACE;
 
     public Player(int tileSize) {
         this(tileSize, 100, 100);
@@ -40,7 +51,8 @@ public class Player {
         inventory.add(new Pugni());
         HeavySword hs = new HeavySword();
         try {
-            hs.setIcon(ImageIO.read(new File(EnviromentVariables.getAssetPath()+"HeavySword.png")));
+            hs.setIcon(ImageIO
+                    .read(getClass().getResourceAsStream("/Assets/HeavySword.png")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -55,32 +67,44 @@ public class Player {
         this.weapon = w;
     }
 
-    public void update(KeyHandler k, int ScreenSizeX, int ScreenSizeY) {
+    Direction direction = Direction.NONE;
 
-        if (k.up && this.getY() - this.getSpeed() > 0) {
+    public void update(GamePanel gamePanel) {
+        boolean upPressed = gamePanel.getKeyHandler().isKeyPressed(upKey);
+        boolean downPressed = gamePanel.getKeyHandler().isKeyPressed(downKey);
+        boolean leftPressed = gamePanel.getKeyHandler().isKeyPressed(leftKey);
+        boolean rightPressed = gamePanel.getKeyHandler().isKeyPressed(rightKey);
+        boolean attackPressed = gamePanel.getKeyHandler().isKeyPressed(attackKey);
+
+        int screenSizeY = gamePanel.getConfiguration().getScreenSizeY();
+        int screenSizeX = gamePanel.getConfiguration().getScreenSizeX();
+
+        direction = gamePanel.getKeyHandler().getDirectionWASD();
+
+        if (upPressed && this.getY() - this.getSpeed() > 0) {
             this.setY(this.getY() - this.getSpeed());
         }
-        if (k.down && this.getY() + this.getSpeed() < ScreenSizeY - this.getTileSize()) {
+        if (downPressed && this.getY() + this.getSpeed() < screenSizeY - this.getTileSize()) {
             this.setY(this.getY() + this.getSpeed());
         }
-        if (k.left && this.getX() - this.getSpeed() > 0) {
+        if (leftPressed && this.getX() - this.getSpeed() > 0) {
             this.setX(this.getX() - this.getSpeed());
         }
-        if (k.right && this.getX() + this.getSpeed() < ScreenSizeX - this.getTileSize()) {
+        if (rightPressed && this.getX() + this.getSpeed() < screenSizeX - this.getTileSize()) {
             this.setX(this.getX() + this.getSpeed());
         }
 
         if (!(this.weapon instanceof RangedWeapon)) {
-            if (k.attack && !_isPressingAttack && _attackingTime <= 0) {
+            if (attackPressed && !_isPressingAttack && _attackingTime <= 0) {
                 _isPressingAttack = true;
                 _attackingTime = weapon.getAttackSpeed();
-            } else if (!k.attack) {
+            } else if (!attackPressed) {
                 _isPressingAttack = false;
             }
-
         } else {
-            if (k.attack && _bullet == null) {
-                _bullet = new Bullet(x, y, weapon.getRange(), weapon.getSpeed(), weapon.getDamage(), k.direction);
+            if (attackPressed && _bullet == null) {
+
+                _bullet = new Bullet(x, y, weapon.getRange(), weapon.getSpeed(), weapon.getDamage(), direction);
                 _bulletShotTime = 0;
             }
 
@@ -151,50 +175,48 @@ public class Player {
 
     /* end of get & set section */
 
-    public void redraw(Graphics2D g2d, String direction) {
-        
+    public void draw(Graphics2D g2d, GamePanel gamePanel) {
+
         try {
-            if(this.icon==null){
-            this.icon= ImageIO.read(new File(EnviromentVariables.getAssetPath()+"player.png"));
-        }
+            if (this.icon == null) {
+                this.icon = ImageIO.read(getClass().getResourceAsStream("/Assets/player.png"));
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         g2d.drawImage(this.icon, x, y, tileSize, tileSize, null);
-        
 
         if (!(this.weapon instanceof RangedWeapon)) {
             if (_attackingTime > 0) {
                 _attackingTime--;
-                AttackNotRanged(g2d, direction);
+                AttackNotRanged(g2d, gamePanel);
             }
         } else {
             if (_bullet != null) {
-                AttackRanged(g2d);
-                _bulletShotTime++;
+                AttackRanged(g2d, gamePanel);
             }
         }
     }
 
-    public void AttackRanged(Graphics2D g2d) {
-        _bullet.draw(g2d, _bulletShotTime);
+    public void AttackRanged(Graphics2D g2d, GamePanel gamePanel) {
+        _bullet.draw(g2d, gamePanel);
     }
 
-    public void AttackNotRanged(Graphics2D g2d, String direction) {
+    public void AttackNotRanged(Graphics2D g2d, GamePanel gamePanel) {
         g2d.setColor(Color.red);
 
         switch (direction) {
-            case "up":
+            case UP:
                 g2d.fillRect(x, y - this.weapon.getRange(), tileSize, tileSize);
                 break;
-            case "down":
+            case DOWN:
                 g2d.fillRect(x, y + this.weapon.getRange(), tileSize, tileSize);
                 break;
-            case "left":
+            case LEFT:
                 g2d.fillRect(x - this.weapon.getRange(), y, tileSize, tileSize);
                 break;
-            case "right":
+            case RIGHT:
                 g2d.fillRect(x + this.weapon.getRange(), y, tileSize, tileSize);
                 break;
 
