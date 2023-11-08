@@ -1,15 +1,18 @@
 package bountyhunter.Classes.Entyties;
 
+import bountyhunter.EnviromentVariables;
 import bountyhunter.Classes.WeaponsClasses.*;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 import java.awt.Color;
 
 public class Player {
+    private BufferedImage icon;
     private int x;
     private int y;
     private int tileSize;
@@ -37,7 +40,7 @@ public class Player {
         inventory.add(new Pugni());
         HeavySword hs = new HeavySword();
         try {
-            hs.setIcon(ImageIO.read(new File("../../../../Assets/HeavySword.png")));
+            hs.setIcon(ImageIO.read(new File(EnviromentVariables.getAssetPath()+"HeavySword.png")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -149,9 +152,17 @@ public class Player {
     /* end of get & set section */
 
     public void redraw(Graphics2D g2d, String direction) {
-        g2d.setColor(Color.white);
+        
+        try {
+            if(this.icon==null){
+            this.icon= ImageIO.read(new File(EnviromentVariables.getAssetPath()+"player.png"));
+        }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        g2d.fillRect(x, y, tileSize, tileSize);
+        g2d.drawImage(this.icon, x, y, tileSize, tileSize, null);
+        
 
         if (!(this.weapon instanceof RangedWeapon)) {
             if (_attackingTime > 0) {

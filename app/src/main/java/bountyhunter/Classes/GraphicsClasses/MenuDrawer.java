@@ -10,8 +10,10 @@ public abstract class MenuDrawer {
     
     public static void drawTopLeftMenu(Graphics2D g,Player p){
         
+        g.setColor(Color.white);
+        g.fillRect(0, 5, 200, 70);
         g.setColor(Color.black);
-        g.draw(new RoundRectangle2D.Double(0, 5, 150, 70, 10, 10));
+        g.draw(new RoundRectangle2D.Double(0, 5, 200, 70, 10, 10));
         g.drawString("Health: " + p.getHealth(), 10, 20);
         g.drawString("Damage: " + p.getWeapon().getDamage(), 10, 40);
         g.drawString("Weapon type:"+p.getWeapon().toString(), 10, 60);
@@ -35,6 +37,7 @@ public abstract class MenuDrawer {
         int maxHeight=300;
         g.setColor(Color.black);
         //draw a rectangole with the inventory in the right side of the screen
+        g.drawRect(x, y, maxWidth, maxHeight);
         g.draw(new RoundRectangle2D.Double(x, y, maxWidth, maxHeight, 10, 10));
         g.drawString("Inventory", x+50, y+15);
         

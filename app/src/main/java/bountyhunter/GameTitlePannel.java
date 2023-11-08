@@ -2,16 +2,10 @@ package bountyhunter;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
 import java.awt.Color;
 import javax.swing.JPanel;
-
-import com.google.common.graph.Graph;
-
 import javax.swing.JFrame;
 import bountyhunter.Classes.Entyties.TitleMenuHandler;
-import bountyhunter.PannelControll;
 
 public class GameTitlePannel extends JPanel implements Runnable {
     private final JFrame frame;

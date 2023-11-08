@@ -68,11 +68,7 @@ public class MapDrawer {
 
             map = new int[nRow][nCol];
 
-            for (int[] row : map) {
-                for (int i : row) {
-                    i = -1;
-                }
-            }
+            
 
             br.close();
 

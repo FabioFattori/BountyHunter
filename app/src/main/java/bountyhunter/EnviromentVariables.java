@@ -1,7 +1,5 @@
 package bountyhunter;
 
-import org.checkerframework.checker.guieffect.qual.SafeEffect;
-
 public class EnviromentVariables {
     private final String titleOfWindow = "Bounty Hunter V0.1";
     private final int tileSize = 48;
