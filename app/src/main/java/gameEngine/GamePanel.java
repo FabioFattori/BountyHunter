@@ -14,6 +14,7 @@ import gameEngine.classes.GameEntity;
 import gameEngine.classes.GamePresentation;
 import gameEngine.classes.TileManager;
 import gameEngine.interfaces.DrawableEntity;
+import gameEngine.classes.OptionMenuHandler;
 
 public class GamePanel
         extends JPanel
@@ -27,6 +28,7 @@ public class GamePanel
     private TileManager tileManager;
     private final JFrame owner;
     private boolean pause;
+    private OptionMenuHandler OptionMenuHandler;
 
     Thread gameThread;
 
@@ -42,6 +44,16 @@ public class GamePanel
         setDoubleBuffered(true);
         addKeyListener(this.keyHandler);
         setFocusable(true);
+        
+        
+    }
+
+    public void setOptionMenuHandler(OptionMenuHandler OptionMenuHandler) {
+        this.OptionMenuHandler = OptionMenuHandler;
+    }
+
+    public OptionMenuHandler getOptionMenuHandler() {
+        return this.OptionMenuHandler;
     }
 
     public TileManager getTileManager() {
@@ -102,8 +114,13 @@ public class GamePanel
     }
 
     public void update() {
-        if (pause)
+        if (pause) {
+            OptionMenuHandler.update(this);
             return;
+        }
+            
+        OptionMenuHandler.update(this);
+        
         if (!gamePresentation.getShow()) {
             for (DrawableEntity gameEntity : getGameEntities()) {
                 gameEntity.update(this);
@@ -114,9 +131,13 @@ public class GamePanel
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (pause)
+        if(pause){
+            OptionMenuHandler.draw((Graphics2D)g, this);
             return;
+        }
+
+        super.paintComponent(g);
+        
         Graphics2D g2 = (Graphics2D) g;
 
         if (!gamePresentation.getShow()) {

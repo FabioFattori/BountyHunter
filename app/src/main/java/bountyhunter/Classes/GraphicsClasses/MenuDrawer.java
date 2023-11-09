@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
 
+import org.checkerframework.checker.units.qual.C;
+
 public abstract class MenuDrawer {
     
     public static void drawTopLeftMenu(Graphics2D g,Player p){
@@ -63,5 +65,32 @@ public abstract class MenuDrawer {
                 }
             i++;
         }
+    }
+
+    public static void drawPauseMenu(Graphics2D g,int index){
+        g.setColor(Color.white);
+        g.fillRect(0, 0, 800, 600);
+        g.setColor(Color.black);
+        g.drawString("Game Paused", 100, 100);
+        if(index == 0){
+            g.setColor(Color.red);
+        }
+        g.drawString("Resume", 120, 120);
+        g.setColor(Color.black);
+        if(index == 1){
+            g.setColor(Color.red);
+        }
+        g.drawString("Hub", 120, 170);
+        g.setColor(Color.black);
+        if(index == 2){
+            g.setColor(Color.red);
+        }
+
+        g.drawString("Exit", 120, 210);
+
+        g.setColor(Color.black);
+
+
+
     }
 }

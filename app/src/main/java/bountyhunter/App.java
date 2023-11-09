@@ -10,6 +10,7 @@ import gameEngine.GameConfiguration;
 import gameEngine.GamePanel;
 import gameEngine.classes.GameEntity;
 import gameEngine.classes.GamePresentation;
+import gameEngine.classes.OptionMenuHandler;
 import gameEngine.classes.TileManager;
 import gameEngine.interfaces.DrawableEntity;
 
@@ -36,6 +37,7 @@ public class App {
         frame.setVisible(true);
 
         GameRender gameRender = new GameRender(gp);
+        gp.setOptionMenuHandler(new OptionMenuHandler(gameRender));
 
         initTileManager(gp.getTileManager());
         gp.addGameEntities(gameRender);
