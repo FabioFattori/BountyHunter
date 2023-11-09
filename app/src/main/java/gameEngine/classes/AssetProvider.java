@@ -2,10 +2,12 @@ package gameEngine.classes;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
@@ -47,6 +49,16 @@ public class AssetProvider {
             } else {
                 return null;
             }
+        }
+    }
+
+    public String loadText(String path) {
+        try (InputStream is = getClass().getResourceAsStream(fullPath(path));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            return reader.lines().collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

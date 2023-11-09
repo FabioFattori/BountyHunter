@@ -10,6 +10,7 @@ import gameEngine.GameConfiguration;
 import gameEngine.GamePanel;
 import gameEngine.classes.GameEntity;
 import gameEngine.classes.GamePresentation;
+import gameEngine.classes.TileManager;
 import gameEngine.interfaces.DrawableEntity;
 
 public class App {
@@ -36,9 +37,9 @@ public class App {
 
         GameRender gameRender = new GameRender(gp);
 
+        initTileManager(gp.getTileManager());
         gp.addGameEntities(gameRender);
         gp.startGameThread();
-
     }
 
     private static GameConfiguration getDefaultConfiguration() {
@@ -47,5 +48,11 @@ public class App {
 
     private static GamePresentation getDefaultPresentation() {
         return new GamePresentation(APPLICATION_TITLE);
+    }
+
+    private static void initTileManager(TileManager tileManger) {
+        tileManger.addTile(0, "ground.png", true);
+        tileManger.addTile(0, "border.png", true);
+        tileManger.addTile(0, "water.png", false);
     }
 }

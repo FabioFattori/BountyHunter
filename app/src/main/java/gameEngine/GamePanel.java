@@ -12,6 +12,7 @@ import java.util.List;
 import gameEngine.classes.AssetProvider;
 import gameEngine.classes.GameEntity;
 import gameEngine.classes.GamePresentation;
+import gameEngine.classes.TileManager;
 import gameEngine.interfaces.DrawableEntity;
 
 public class GamePanel
@@ -23,6 +24,9 @@ public class GamePanel
     private GameConfiguration gameConfiguration;
     private GamePresentation gamePresentation;
     private AssetProvider assetProvider;
+    private TileManager tileManager;
+
+    private boolean pause;
 
     Thread gameThread;
 
@@ -31,11 +35,16 @@ public class GamePanel
         this.gameConfiguration = gameConfiguration;
         this.gameEntities = drawableEntities;
         this.assetProvider = new AssetProvider(gameConfiguration.getAssetPath());
+        this.tileManager = new TileManager(assetProvider);
         setPreferredSize(new Dimension(gameConfiguration.getScreenSizeX(), gameConfiguration.getScreenSizeY()));
         setBackground(background);
         setDoubleBuffered(true);
         addKeyListener(this.keyHandler);
         setFocusable(true);
+    }
+
+    public TileManager getTileManager() {
+        return this.tileManager;
     }
 
     public void setGamePresentation(GamePresentation gamePresentation) {
@@ -92,6 +101,8 @@ public class GamePanel
     }
 
     public void update() {
+        if (pause)
+            return;
         if (!gamePresentation.getShow()) {
             for (DrawableEntity gameEntity : getGameEntities()) {
                 gameEntity.update(this);
@@ -103,6 +114,8 @@ public class GamePanel
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if (pause)
+            return;
         Graphics2D g2 = (Graphics2D) g;
 
         if (!gamePresentation.getShow()) {
@@ -138,6 +151,14 @@ public class GamePanel
 
     public AssetProvider getAssetProvider() {
         return this.assetProvider;
+    }
+
+    public void pause() {
+        this.pause = true;
+    }
+
+    public void resume() {
+        this.pause = false;
     }
 
     // UTIL method
