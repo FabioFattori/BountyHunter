@@ -52,7 +52,7 @@ public class App {
 
     private static void initTileManager(TileManager tileManger) {
         tileManger.addTile(0, "ground.png", true);
-        tileManger.addTile(0, "border.png", true);
-        tileManger.addTile(0, "water.png", false);
+        tileManger.addTile(1, "border.png", true);
+        tileManger.addTile(2, "water.png", false);
     }
 }

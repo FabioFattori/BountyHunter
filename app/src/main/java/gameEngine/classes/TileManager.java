@@ -21,10 +21,11 @@ public class TileManager {
     }
 
     public void addTile(int id, String path, boolean canPassThrough) {
-        tiles.put(id, new Tile(assetProvider, path, canPassThrough));
+        addTile(id, new Tile(assetProvider, path, canPassThrough));
     }
 
     public void addTile(int id, TileDrawable tile) {
+        tile.loadImage();
         tiles.put(id, tile);
     }
 

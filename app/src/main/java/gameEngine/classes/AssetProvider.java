@@ -52,7 +52,7 @@ public class AssetProvider {
         }
     }
 
-    public String loadText(String path) {
+    public String getText(String path) {
         try (InputStream is = getClass().getResourceAsStream(fullPath(path));
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             return reader.lines().collect(Collectors.joining("\n"));

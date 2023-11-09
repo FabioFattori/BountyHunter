@@ -1,7 +1,7 @@
 package bountyhunter;
 
 import bountyhunter.Classes.Entyties.*;
-import bountyhunter.Classes.GraphicsClasses.MapDrawer;
+import gameEngine.classes.MapDrawer;
 import bountyhunter.Classes.GraphicsClasses.MenuDrawer;
 import bountyhunter.Classes.WeaponsClasses.*;
 import gameEngine.GamePanel;
@@ -34,7 +34,8 @@ public class GameRender implements DrawableEntity {
     public void initialize() {
         this.player = new Player(gamePanel, new HeavySword());
         InventoryHandler = new InventoryHandler(player.getInventory(), this);
-        mapDrawer = new MapDrawer(gamePanel, "maps/map.txt");
+        mapDrawer = new MapDrawer(gamePanel.getAssetProvider());
+        mapDrawer.loadMap("maps/map.txt");
         frameCount = 0;
     }
 
@@ -58,7 +59,7 @@ public class GameRender implements DrawableEntity {
     }
 
     public void draw(Graphics2D g2d, GamePanel gamePanel) {
-        mapDrawer.drawMap(g2d);
+        mapDrawer.draw(g2d, gamePanel);
 
         MenuDrawer.drawTopLeftMenu(g2d, player);
 
