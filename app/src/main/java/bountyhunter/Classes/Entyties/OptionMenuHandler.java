@@ -6,7 +6,7 @@ import bountyhunter.GameRender;
 import gameEngine.GamePanel;
 import gameEngine.interfaces.DrawableEntity;
 
-public class OptionMenuHandler implements DrawableEntity{
+public class OptionMenuHandler implements DrawableEntity {
 
     private int maxWaitingTime;
     private int waitingTime;
@@ -14,36 +14,35 @@ public class OptionMenuHandler implements DrawableEntity{
     JDialog optionDialog;
 
     public OptionMenuHandler(GameRender gameRender) {
-        
+
         maxWaitingTime = gameRender.getFPS() / 10;
         waitingTime = maxWaitingTime;
     }
 
     @Override
     public void update(GamePanel gamePanel) {
-        if (isOpen) {
-            if (waitingTime <= 0) {
-                if(gamePanel.getKeyHandler().isEscapePressed()) {
-                    
-                    isOpen = true;
-        
-                }
-            }
+        isOpen = false;
+
+        if (waitingTime <= 0 && gamePanel.getKeyHandler().isEscapePressed()) {
+
+            isOpen = true;
+            waitingTime = maxWaitingTime;
+
         }
 
-        if(waitingTime > 0) {
+        if (waitingTime > 0) {
             waitingTime--;
         }
     }
 
     @Override
     public void draw(Graphics2D graphics2d, GamePanel gamePanel) {
-       if (isOpen) {
+        if (isOpen) {
             optionDialog = new JDialog(gamePanel.getFrame(), "Pause", true);
             optionDialog.setSize(200, 200);
             optionDialog.setLocationRelativeTo(null);
             optionDialog.setVisible(true);
-       }
+        }
     }
-    
+
 }
