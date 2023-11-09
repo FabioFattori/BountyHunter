@@ -6,13 +6,7 @@ import bountyhunter.Classes.GraphicsClasses.MenuDrawer;
 import bountyhunter.Classes.WeaponsClasses.*;
 import gameEngine.GamePanel;
 import gameEngine.interfaces.DrawableEntity;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
 
 public class GameRender implements DrawableEntity {
 
@@ -25,15 +19,20 @@ public class GameRender implements DrawableEntity {
     private boolean changeControll = true;
     private MapDrawer mapDrawer;
     private InventoryHandler InventoryHandler;
+    private OptionMenuHandler OptionMenuHandler;
+    private final HubRenderer hubRenderer;
+    private boolean isHub = false;
 
     public GameRender(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         initialize();
+        this.hubRenderer = new HubRenderer(gamePanel);
     }
 
     public void initialize() {
         this.player = new Player(gamePanel, new HeavySword());
         InventoryHandler = new InventoryHandler(player.getInventory(), this);
+        OptionMenuHandler = new OptionMenuHandler(this);
         mapDrawer = new MapDrawer(gamePanel.getAssetProvider());
         mapDrawer.loadMap("maps/map.txt");
         frameCount = 0;
@@ -56,9 +55,22 @@ public class GameRender implements DrawableEntity {
 
         InventoryHandler.update(gamePanel);
 
+        OptionMenuHandler.update(gamePanel);
+
+        
+
+        if(isHub) {
+            hubRenderer.update(gamePanel);
+        }
+
     }
 
     public void draw(Graphics2D g2d, GamePanel gamePanel) {
+
+        if(isHub) {
+            hubRenderer.draw(g2d, gamePanel);
+            return;
+        }
         mapDrawer.draw(g2d, gamePanel);
 
         MenuDrawer.drawTopLeftMenu(g2d, player);
@@ -66,6 +78,8 @@ public class GameRender implements DrawableEntity {
         player.draw(g2d, gamePanel);
 
         InventoryHandler.draw(g2d, gamePanel);
+
+        OptionMenuHandler.draw(g2d, gamePanel);
 
         g2d.dispose();
     }

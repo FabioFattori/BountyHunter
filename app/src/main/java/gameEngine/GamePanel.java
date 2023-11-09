@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.swing.JFrame;
 import gameEngine.classes.AssetProvider;
 import gameEngine.classes.GameEntity;
 import gameEngine.classes.GamePresentation;
@@ -25,13 +25,14 @@ public class GamePanel
     private GamePresentation gamePresentation;
     private AssetProvider assetProvider;
     private TileManager tileManager;
-
+    private final JFrame owner;
     private boolean pause;
 
     Thread gameThread;
 
     public GamePanel(GameConfiguration gameConfiguration, ArrayList<DrawableEntity> drawableEntities,
-            Color background) {
+            Color background,JFrame frame) {
+        this.owner = frame;
         this.gameConfiguration = gameConfiguration;
         this.gameEntities = drawableEntities;
         this.assetProvider = new AssetProvider(gameConfiguration.getAssetPath());
@@ -164,5 +165,9 @@ public class GamePanel
     // UTIL method
     public int getFPS() {
         return this.getConfiguration().getFPS();
+    }
+
+    public JFrame getFrame() {
+        return this.owner;
     }
 }

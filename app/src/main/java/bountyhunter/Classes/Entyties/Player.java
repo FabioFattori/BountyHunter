@@ -1,6 +1,5 @@
 package bountyhunter.Classes.Entyties;
 
-import bountyhunter.EnviromentVariables;
 import bountyhunter.Classes.WeaponsClasses.*;
 import gameEngine.GamePanel;
 import gameEngine.interfaces.DrawableEntity;

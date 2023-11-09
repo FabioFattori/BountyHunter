@@ -25,7 +25,7 @@ public class App {
         Dimension screenDimension = new Dimension(600, 400);
 
         GamePanel gp = new GamePanel(getDefaultConfiguration(), new ArrayList<DrawableEntity>(),
-                Color.black);
+                Color.black,frame);
         gp.setGamePresentation(getDefaultPresentation());
 
         frame.setPreferredSize(screenDimension);

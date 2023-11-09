@@ -1,3 +1,3 @@
 
 echo "Starting project for Windows ..." ;
-gradlew compileJava && cd app/build/classes/java/main && java bountyhunter.App ; 
+gradlew build && cd app/build/libs && java -jar app.jar
