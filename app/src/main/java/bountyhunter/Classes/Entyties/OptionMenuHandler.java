@@ -12,6 +12,7 @@ public class OptionMenuHandler implements DrawableEntity {
     private int waitingTime;
     private boolean isOpen = false;
     JDialog optionDialog;
+    boolean escapePressed = false;
 
     public OptionMenuHandler(GameRender gameRender) {
 
@@ -25,9 +26,12 @@ public class OptionMenuHandler implements DrawableEntity {
 
         if (waitingTime <= 0 && gamePanel.getKeyHandler().isEscapePressed()) {
 
+            escapePressed = true;
+
+        } else if (waitingTime <= 0 && escapePressed) {
             isOpen = true;
             waitingTime = maxWaitingTime;
-
+            escapePressed = false;
         }
 
         if (waitingTime > 0) {
